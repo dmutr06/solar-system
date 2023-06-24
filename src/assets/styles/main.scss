@@ -2,4 +2,12 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: -1;
+}
+
+div {
+    font-size: 40px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }

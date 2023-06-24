@@ -38,6 +38,7 @@ export class Planet extends InteractiveMesh {
             z: 1,
         });
 
+        document.documentElement.style.cursor = "default";
     }
 
     public onPointerEnter(_: ThreeEvent): void {
@@ -48,6 +49,8 @@ export class Planet extends InteractiveMesh {
             y: 1.2,
             z: 1.2,
         });
+
+        document.documentElement.style.cursor = "pointer";
     }
 
     public render() {
