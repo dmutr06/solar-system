@@ -8,6 +8,8 @@ export function regRaycaster(): Raycaster {
     const pointer = new Vector2();
 
     window.addEventListener("mousemove", e => {
+        if (!(e.target instanceof HTMLCanvasElement)) return; 
+        
         pointer.x = e.clientX / window.innerWidth * 2 - 1;
         pointer.y = - e.clientY / window.innerHeight * 2 + 1;
         raycaster.setFromCamera(pointer, camera);
@@ -22,6 +24,7 @@ export function regClickRaycaster(): { raycaster: Raycaster, active: { state: bo
     const pointer = new Vector2();
 
     window.addEventListener("click", e => {
+        if (!(e.target instanceof HTMLCanvasElement)) return;
         active.state = true;
         pointer.x = e.clientX / window.innerWidth * 2 - 1;
         pointer.y = - e.clientY / window.innerHeight * 2 + 1;

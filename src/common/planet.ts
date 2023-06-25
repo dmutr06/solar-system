@@ -1,9 +1,10 @@
 import { Group, Material, SphereGeometry } from "three";
-import { InteractiveMesh } from "./interactiveMesh.interface";
+import { InteractiveMesh } from "./interactiveMesh";
 import { ThreeEvent } from "./threeEvent.type";
 import anime from "animejs";
 import { PlanetInfo } from "./planetInfo.type";
 import { scene } from "../utils";
+import { planetInfo } from "../utils/domElements";
 
 
 export class Planet extends InteractiveMesh {
@@ -13,7 +14,7 @@ export class Planet extends InteractiveMesh {
     private currentRotateSpeed: number;
 
     constructor(size: number, radius: number, material: Material, rotateSpeed: number, planetInfo: PlanetInfo) {
-        super(new SphereGeometry(size), material);
+        super(new SphereGeometry(size, 100, 50), material);
         this.planetInfo = planetInfo;
         this.rotateSpeed = rotateSpeed;
         this.currentRotateSpeed = rotateSpeed;
@@ -24,8 +25,14 @@ export class Planet extends InteractiveMesh {
         scene.add(this.pivot);
     }
 
-    public onClick(_: ThreeEvent): void {
-        alert(`${this.planetInfo.name}\n\n${this.planetInfo.description}`);
+    public onClick(e: ThreeEvent): void {
+        this.onPointerLeave(e);
+        planetInfo.innerHTML = `
+            <div class="name">${this.planetInfo.name}</div>
+            <div class="description">${this.planetInfo.description}</div>
+            <img src="/src/assets/icons/cross.svg" alt="cross" class="cross" />
+        `
+        planetInfo?.classList.add("active");
         this.currentRotateSpeed = this.rotateSpeed;
     }
 

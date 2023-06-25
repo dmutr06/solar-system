@@ -5,9 +5,65 @@
     z-index: -1;
 }
 
-div {
-    font-size: 40px;
-    color: #fff;
-    position: relative;
+.planet-info {
     z-index: 1;
+    padding: 30px 20px;
+    position: absolute;
+    border: 2px #fff solid;
+    border-radius: 10px;
+    opacity: 0;
+    color: #fff;
+    width: 90%;
+    max-width: 500px;
+    left: 50%;
+    top: -500px;
+    transform: translateX(-50%);
+    transition: .5s all;
+    background-color: rgba(0, 0, 0, .8);
+    height: 0;
+    
+    &.active {
+        transition: .5s all;
+        opacity: 1;
+        display: block;
+        top: 30px;
+        height: auto;
+    }
+
+    .cross {
+        display: block;
+        position: absolute;
+        width: 25px;
+        filter: invert(1);
+        font-weight: 500;
+        cursor: pointer;
+        top: 15px;
+        right: 20px;
+        z-index: 2;
+    }
+
+    .name {
+        font-size: 26px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .description {
+        margin-top: 22px;
+        font-size: 18px;
+        overflow-y: auto;
+        max-height: 300px;
+        padding-right: 20px;
+        scroll-behavior: smooth;
+        &::-webkit-scrollbar {
+            width: 10px;
+            background-color: #ff5500;
+            border-radius: 5px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #ad1e1e;
+            border-radius: 5px;
+        }
+    }
 }
