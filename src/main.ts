@@ -2,7 +2,7 @@ import "css-reset-and-normalize/scss/reset-and-normalize.scss";
 import "./assets/styles/main.scss";
 import { camera, scene, renderer, raycaster, clickRaycaster, textureLoader } from "./utils";
 import { Planet } from "./common/planet";
-import { MeshBasicMaterial, MeshStandardMaterial, Vector2 } from "three";
+import { MeshBasicMaterial } from "three";
 import { ambientLight, pointLight } from "./components/light";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
