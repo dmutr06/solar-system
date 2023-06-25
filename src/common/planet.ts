@@ -4,7 +4,7 @@ import { ThreeEvent } from "./threeEvent.type";
 import anime from "animejs";
 import { PlanetInfo } from "./planetInfo.type";
 import { scene } from "../utils";
-import { planetInfo } from "../utils/domElements";
+import { planetDescription, planetInfo, planetName } from "../utils/domElements";
 
 
 export class Planet extends InteractiveMesh {
@@ -27,12 +27,10 @@ export class Planet extends InteractiveMesh {
 
     public onClick(e: ThreeEvent): void {
         this.onPointerLeave(e);
-        planetInfo.innerHTML = `
-            <div class="name">${this.planetInfo.name}</div>
-            <div class="description">${this.planetInfo.description}</div>
-            <img src="/src/assets/icons/cross.svg" alt="cross" class="cross" />
-        `
-        planetInfo?.classList.add("active");
+
+        planetName.innerHTML = this.planetInfo.name;
+        planetDescription.innerHTML = this.planetInfo.description;
+        planetInfo.classList.add("active");
         this.currentRotateSpeed = this.rotateSpeed;
     }
 
