@@ -21,6 +21,7 @@
     "animejs": "^3.2.1",
     "aos": "^2.3.4",
     "css-reset-and-normalize": "^2.3.6",
+    "postprocessing": "^6.32.1",
     "three": "^0.153.0"
   }
 }

@@ -1,15 +1,13 @@
 import "css-reset-and-normalize/scss/reset-and-normalize.scss";
 import "./assets/styles/main.scss";
-import { camera, scene, renderer, raycaster, clickRaycaster, textureLoader } from "./utils";
+import { camera, scene, raycaster, clickRaycaster, textureLoader, controls, blurPass, composer, interactiveObjs, enableResize, nullHover, hovered } from "./utils";
 import { Planet } from "./common/planet";
 import { MeshBasicMaterial } from "three";
 import { ambientLight, pointLight } from "./components/light";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
 
 import sunTexture from "./assets/textures/sun.jpg";
 import { InteractiveMesh } from "./common/interactiveMesh";
-import { enableResize } from "./utils/reset";
-import { interactiveObjs } from "./utils/interactiveObjs";
 import { Mercury } from "./components/planets/mercury";
 import { Venus } from "./components/planets/venus";
 import { Earth } from "./components/planets/earth";
@@ -18,12 +16,7 @@ import { Saturn } from "./components/planets/saturn";
 import { Jupiter } from "./components/planets/jupiter";
 import { Neptune } from "./components/planets/neptune";
 import { Uranus } from "./components/planets/uranus";
-import { composer } from "./utils/postprocessing";
 import { planetInfo } from "./utils/domElements";
-
-let hovered: InteractiveMesh[] = [];
-const controls = new OrbitControls(camera, renderer.domElement);
-
 
 
 
@@ -45,7 +38,13 @@ enableResize();
 const sun = new Planet(3.5, 0, new MeshBasicMaterial({ map: textureLoader.load(sunTexture), toneMapped: false, }), 0, { name: "Sun", description: "The star" });
 sun.add(pointLight);
 
-
+window.addEventListener("mousedown", () => {
+	if (hovered.state.length == 0) {
+		nullHover.state = true;
+	} else {
+		nullHover.state = false;
+	}
+});
 
 scene.add(ambientLight);
 
@@ -53,6 +52,7 @@ function main() {
 	planetInfo.addEventListener("click", e => {
 		if (e.target instanceof HTMLImageElement) {
 			planetInfo.classList.remove("active");
+			blurPass.enabled = false;
 		}
 	})
 	render();
@@ -61,17 +61,22 @@ function main() {
 function render() {
 	requestAnimationFrame(render);
 
-	if (!isMobile && !planetInfo.classList.contains("active")) {
+	if (!isMobile) {
 		const intersect = raycaster.intersectObjects<InteractiveMesh>(scene.children)[0];
 
-		if (intersect && hovered.filter(planet => intersect.object.id == planet.id).length == 0) {
-			intersect.object.onPointerEnter?.({ camera, scene });
-			hovered.push(intersect.object);
+		if (intersect && hovered.state.filter(planet => intersect.object.id == planet.id).length == 0) {
+			if (!planetInfo.classList.contains("active")) {
+				intersect.object.onPointerEnter?.({ camera, scene });
+			}
+
+			hovered.state.push(intersect.object);
 		}
 
-		hovered = hovered.map(planet => {
+		hovered.state = hovered.state.map(planet => {
 			if (planet.id != intersect?.object.id) {
-				planet.onPointerLeave?.({ camera, scene });
+				if (!planetInfo.classList.contains("active")) {
+					planet.onPointerLeave?.({ camera, scene });
+				}
 				return null;
 			} else {
 				return planet;
@@ -80,13 +85,21 @@ function render() {
 		}).filter(p => p != null) as any;
 	}
 
-	if (clickRaycaster.active.state) {
-
-		const intersect = raycaster.intersectObjects<InteractiveMesh>(scene.children)[0];
-
-		intersect?.object.onClick?.({ scene, camera });
-		clickRaycaster.active.state = false;
+	if (hovered.state.length > 0) {
+		document.documentElement.style.cursor = "pointer";
+	} else {
+		document.documentElement.style.cursor = "default";
 	}
+		if (clickRaycaster.active.state) {
+
+			const intersect = raycaster.intersectObjects<InteractiveMesh>(scene.children)[0];
+
+			if (!nullHover.state) {
+				intersect?.object.onClick?.({ scene, camera });
+			}
+		}
+
+		clickRaycaster.active.state = false;
 
 	interactiveObjs.forEach(obj => {
 		obj.render?.();
@@ -95,6 +108,7 @@ function render() {
 	controls.update();
 
 	earth.rotateY(0.01);
+	sun.rotateY(.07);
 
 	composer.render();
 }

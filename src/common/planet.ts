@@ -5,7 +5,15 @@ import anime from "animejs";
 import { PlanetInfo } from "./planetInfo.type";
 import { scene } from "../utils";
 import { planetDescription, planetInfo, planetName } from "../utils/domElements";
+import { blurPass } from "../utils/postprocessing";
 
+function close(e: Event) {
+    if (e.target instanceof HTMLCanvasElement) {
+        planetInfo.classList.remove("active");
+        blurPass.enabled = false;
+        document.body.removeEventListener("mousedown", close);
+    }
+}
 
 export class Planet extends InteractiveMesh {
     public planetInfo: PlanetInfo;
@@ -31,7 +39,9 @@ export class Planet extends InteractiveMesh {
         planetName.innerHTML = this.planetInfo.name;
         planetDescription.innerHTML = this.planetInfo.description;
         planetInfo.classList.add("active");
+        document.body.addEventListener("mousedown", close);
         this.currentRotateSpeed = this.rotateSpeed;
+        blurPass.enabled = true;
     }
 
     public onPointerLeave(_: ThreeEvent): void {
@@ -42,8 +52,6 @@ export class Planet extends InteractiveMesh {
             y: 1,
             z: 1,
         });
-
-        document.documentElement.style.cursor = "default";
     }
 
     public onPointerEnter(_: ThreeEvent): void {
@@ -54,8 +62,6 @@ export class Planet extends InteractiveMesh {
             y: 1.2,
             z: 1.2,
         });
-
-        document.documentElement.style.cursor = "pointer";
     }
 
     public render() {
