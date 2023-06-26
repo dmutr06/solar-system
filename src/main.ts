@@ -38,13 +38,16 @@ enableResize();
 const sun = new Planet(3.5, 0, new MeshBasicMaterial({ map: textureLoader.load(sunTexture), toneMapped: false, }), 0, { name: "Sun", description: "The star" });
 sun.add(pointLight);
 
-window.addEventListener("mousedown", () => {
-	if (hovered.state.length == 0) {
-		nullHover.state = true;
-	} else {
-		nullHover.state = false;
-	}
-});
+if (!isMobile) {
+	window.addEventListener("mousedown", () => {
+		if (hovered.state.length == 0) {
+			nullHover.state = true;
+		} else {
+			nullHover.state = false;
+		}
+	});
+	
+}
 
 scene.add(ambientLight);
 
