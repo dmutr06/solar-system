@@ -35,7 +35,7 @@ const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 enableResize();
 
-const sun = new Planet(3.5, 0, new MeshBasicMaterial({ map: textureLoader.load(sunTexture), toneMapped: false, }), 0, { name: "Sun", description: "The star" });
+const sun = new Planet(3.5, 0, new MeshBasicMaterial({ map: textureLoader.load(sunTexture), toneMapped: false, }), 0, { name: "Sun", description: "The star" }, .011);
 sun.add(pointLight);
 
 if (!isMobile) {
@@ -111,7 +111,6 @@ function render() {
 	controls.update();
 
 	earth.rotateY(0.01);
-	sun.rotateY(.07);
 
 	composer.render();
 }

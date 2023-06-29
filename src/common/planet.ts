@@ -20,11 +20,13 @@ export class Planet extends InteractiveMesh {
     private pivot: Group;
     private rotateSpeed: number;
     private currentRotateSpeed: number;
+    private selfRotateSpeed: number;
 
-    constructor(size: number, radius: number, material: Material, rotateSpeed: number, planetInfo: PlanetInfo) {
+    constructor(size: number, radius: number, material: Material, rotateSpeed: number, planetInfo: PlanetInfo, selfRotateSpeed: number) {
         super(new SphereGeometry(size, 100, 50), material);
         this.planetInfo = planetInfo;
         this.rotateSpeed = rotateSpeed;
+        this.selfRotateSpeed = selfRotateSpeed;
         this.currentRotateSpeed = rotateSpeed;
         this.translateX(radius);
         this.pivot = new Group();
@@ -66,5 +68,6 @@ export class Planet extends InteractiveMesh {
 
     public render() {
         this.pivot.rotateY(this.currentRotateSpeed);
+        this.rotateY(this.selfRotateSpeed);
     }
 }
