@@ -51,7 +51,7 @@ if (!isMobile) {
 
 scene.add(ambientLight);
 
-function main() {
+export function main() {
 	planetInfo.addEventListener("click", e => {
 		if (e.target instanceof HTMLImageElement) {
 			planetInfo.classList.remove("active");
@@ -115,5 +115,3 @@ function render() {
 
 	composer.render();
 }
-
-document.addEventListener("DOMContentLoaded", main);

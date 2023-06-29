@@ -1,8 +1,17 @@
+body {
+    background-color: #000;
+}
+
 #space {
     position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
+    opacity: 0;
+    transition: 2s opacity;
+    &.loaded {
+        opacity: 1;
+    }
 }
 
 .planet-info {
@@ -65,5 +74,37 @@
             background-color: #ad1e1e;
             border-radius: 5px;
         }
+    }
+}
+
+.loading {
+    --progress: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    transition: .3s opacity;
+    width: 30vw;
+    border: 1px solid #fff;
+    height: 30px;
+    background: #000;
+    .bar {
+        background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
+        height: 100%;
+        width: 100%;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            background-color: #000;
+            width: var(--progress);
+        }
+    }
+    &.loaded {
+        opacity: 0;
     }
 }
