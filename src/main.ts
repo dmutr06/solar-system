@@ -35,7 +35,7 @@ const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 enableResize();
 
-const sun = new Planet(3.5, 0, new MeshBasicMaterial({ map: textureLoader.load(sunTexture), toneMapped: false, }), 0, { name: "Sun", description: "The star" }, .011);
+const sun = new Planet(3.5, 0, new MeshBasicMaterial({ map: textureLoader.load(sunTexture), toneMapped: false, }), 0, { name: "Sun", description: "The Sun is the star at the center of the Solar System. It is a nearly perfect ball of hot plasma, heated to incandescence by nuclear fusion reactions in its core. The Sun radiates this energy mainly as light, ultraviolet, and infrared radiation, and is the most important source of energy for life on Earth." }, .011);
 sun.add(pointLight);
 
 if (!isMobile) {
